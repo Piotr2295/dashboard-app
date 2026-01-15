@@ -1,0 +1,28 @@
+-- Database & schema
+CREATE DATABASE IF NOT EXISTS OPS_DB;
+USE DATABASE OPS_DB;
+
+CREATE SCHEMA IF NOT EXISTS ANALYTICS;
+USE SCHEMA ANALYTICS;
+
+-- Warehouse
+CREATE WAREHOUSE IF NOT EXISTS WH_ANALYTICS
+WITH
+  WAREHOUSE_SIZE = 'XSMALL'
+  AUTO_SUSPEND = 60
+  AUTO_RESUME = TRUE;
+
+USE WAREHOUSE WH_ANALYTICS;
+
+-- Table
+CREATE OR REPLACE TABLE incidents (
+    incident_id STRING,
+    service STRING,
+    priority STRING,
+    status STRING,
+    opened_at TIMESTAMP,
+    resolved_at TIMESTAMP,
+    resolution_minutes NUMBER,
+    sla_breached BOOLEAN,
+    ai_risk_score FLOAT
+);
