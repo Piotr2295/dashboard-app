@@ -5,6 +5,7 @@ A lightweight Streamlit application demonstrating how AI-driven operational insi
 ## Tech Stack
 - Python
 - Snowflake
+- FastAPI
 - Streamlit
 - Pandas
 
@@ -15,12 +16,14 @@ A lightweight Streamlit application demonstrating how AI-driven operational insi
 - Operator-friendly dashboard
 
 ## Architecture
-Snowflake → Python Services → Streamlit UI
+Snowflake → Python Services → FastAPI API → Streamlit UI
 
 ## How to Run
 1. Create Snowflake database and table (see SQL in `/sql`)
 2. Set environment variables
 3. Install dependencies:
    pip install -r requirements.txt
-4. Run:
+4. Run the FastAPI backend:
+   uvicorn api.main:app --reload
+5. In another terminal, run the Streamlit app:
    streamlit run app.py

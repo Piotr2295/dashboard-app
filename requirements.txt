@@ -1,3 +1,7 @@
 streamlit
 snowflake-connector-python
 pandas
+fastapi
+uvicorn
+numpy
+requests
