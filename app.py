@@ -1,9 +1,8 @@
 import streamlit as st
-from services.incident_service import (
-    get_incident_kpis,
-    get_high_risk_incidents
-)
-from data.snowflake_client import fetch_incidents
+import requests
+import pandas as pd
+
+API_BASE = "http://localhost:8000"
 
 st.set_page_config(
     page_title="Ops Dashboard",
@@ -13,7 +12,7 @@ st.set_page_config(
 st.title("🚀 AI Operations Dashboard")
 
 # KPIs
-kpis = get_incident_kpis()
+kpis = requests.get(f"{API_BASE}/incidents/kpis").json()
 
 col1, col2, col3 = st.columns(3)
 col1.metric("Total Incidents", kpis["total"])
@@ -24,7 +23,7 @@ st.divider()
 
 # Incident table
 st.subheader("📋 Incident Overview")
-df = fetch_incidents()
+df = pd.DataFrame(requests.get(f"{API_BASE}/incidents").json())
 st.dataframe(df)
 
 # Charts
@@ -33,4 +32,5 @@ st.bar_chart(df.groupby("SERVICE").size())
 
 # AI insights
 st.subheader("🔥 High-Risk Incidents (AI)")
-st.dataframe(get_high_risk_incidents())
+high_risk_df = pd.DataFrame(requests.get(f"{API_BASE}/incidents/high-risk").json())
+st.dataframe(high_risk_df)
